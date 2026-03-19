@@ -5,7 +5,7 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://jr-portoflio-ivory.vercel.app',
+  site: 'https://www.jacoporossi.com',
   integrations: [sitemap(), react()],
 
   vite: {
