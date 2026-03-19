@@ -2,8 +2,6 @@
 import '../styles/global.css';
 import Navbar from '../components/animations/Navbar.tsx';
 import Footer from '../components/Footer.astro';
-import Analytics from '@vercel/analytics/astro';
-import SpeedInsights from '@vercel/speed-insights/astro';
 
 interface Props {
 	title: string;
@@ -16,20 +14,19 @@ const { title, description = "Il mio portfolio digitale" } = Astro.props;
 <!doctype html>
 <html lang="it" class="scroll-smooth">
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content={description} />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-		
-		<title>{title}</title>
-		<Analytics />
-		<SpeedInsights />
-	</head>
+    	<meta charset="UTF-8" />
+    	<meta name="viewport" content="width=device-width" />
+    	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    	<meta name="generator" content={Astro.generator} />
+
+    	<title>Jacopo Rossi | Software Engineer & AI Specialist</title>
+    	<meta name="description" content="Portfolio di Jacopo Rossi, Ingegnere Informatico specializzato in Artificial Intelligence e Cybersecurity. Scopri i miei progetti e le mie competenze." />
+    	<meta name="keywords" content="Jacopo Rossi, Ingegnere Informatico, Roma, Sapienza, Artificial Intelligence, Cybersecurity, Software Engineer, Sviluppatore" />
+    	<meta name="author" content="Jacopo Rossi" />
+		<meta name="google-site-verification" content="CtTq0UPHuVXP1Qy6H9YbyzOuXwupBoo7sJVT6NOResM" />  
+
+    </head>
+
 	<body class="bg-zinc-950 text-zinc-50 font-sans antialiased selection:bg-emerald-500 selection:text-zinc-950 min-h-screen flex flex-col">
 		
 		<Navbar client:load />
