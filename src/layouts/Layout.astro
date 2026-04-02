@@ -18,6 +18,7 @@ const { title, description = "Il mio portfolio digitale" } = Astro.props;
     	<meta name="viewport" content="width=device-width" />
     	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     	<meta name="generator" content={Astro.generator} />
+		<link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
 
     	<title>Jacopo Rossi | Software Engineer & AI Specialist</title>
     	<meta name="description" content="Portfolio di Jacopo Rossi, Ingegnere Informatico specializzato in Artificial Intelligence e Cybersecurity. Scopri i miei progetti e le mie competenze." />
