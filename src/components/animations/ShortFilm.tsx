@@ -7,13 +7,13 @@ export default function ShortFilm() {
   };
 
   return (
-    <section id="cortometraggio" className="py-24 border-t border-zinc-800/50">
-      <div className="mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-4 flex items-center">
-          <span className="text-emerald-400 font-mono text-2xl mr-3">03.</span>
+    <div className="mt-32 pt-16 border-t border-zinc-800/30">
+      <div className="mb-10">
+        <h3 className="text-2xl md:text-3xl font-bold text-zinc-50 mb-3 flex items-center">
+          <span className="text-emerald-400 font-mono text-xl mr-3">&gt;</span>
           Cortometraggio
-        </h2>
-        <div className="w-24 h-1 bg-emerald-400/30 rounded-full"></div>
+        </h3>
+        <div className="w-16 h-1 bg-emerald-400/30 rounded-full"></div>
       </div>
 
       <motion.div 
@@ -39,6 +39,6 @@ export default function ShortFilm() {
           un'esperienza che mi ha permesso di unire creatività e precisione tecnica.
         </p>
       </motion.div>
-    </section>
+    </div>
   );
 }
