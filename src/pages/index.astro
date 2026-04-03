@@ -1,9 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Hero from '../components/animations/Hero.tsx';
-import About from '../components/animations/About.tsx';
-import ProjectGrid from '../components/animations/ProjectGrid.tsx';
-import Contact from '../components/animations/Contact.tsx';
+import Hero from '../components/animations/Hero';
+import About from '../components/animations/About';
+import ProjectGrid from '../components/animations/ProjectGrid';
+import Contact from '../components/animations/Contact';
+import ShortFilm from '../components/animations/ShortFilm';
 
 const githubUsername = 'enoughpaladin00';
 let myProjects: Array<{
@@ -62,5 +63,6 @@ try {
 	<Hero client:load />
 	<About client:visible />
 	<ProjectGrid projects={myProjects} client:visible />
+	<ShortFilm client:visible />
 	<Contact client:visible />
 </Layout>
