@@ -5,6 +5,17 @@ export default function Navbar() {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+    
+    const targetId = href.replace('#', '');
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
     if (latest > 100 && latest > previous) {
@@ -41,7 +52,8 @@ export default function Navbar() {
           {navLinks.map((link, i) => (
             <li key={i}>
               <a 
-                href={link.href} 
+                href={link.href}
+                onClick={(e) => handleLinkClick(e, link.href)}
                 className="text-sm font-mono text-zinc-300 hover:text-emerald-400 transition-colors duration-300 flex items-center gap-1"
               >
                 <span className="text-emerald-400/70">0{i + 1}.</span>
@@ -81,7 +93,7 @@ export default function Navbar() {
                 <li key={i}>
                   <a 
                     href={link.href} 
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={(e) => handleLinkClick(e, link.href)}
                     className="text-lg font-mono text-zinc-300 hover:text-emerald-400 transition-colors duration-300 flex items-center gap-2"
                   >
                     <span className="text-emerald-400/70">0{i + 1}.</span>
