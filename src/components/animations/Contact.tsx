@@ -10,7 +10,7 @@ export default function Contact() {
       viewport={{ once: true, margin: "-100px" }}
       className="py-32 flex flex-col items-center justify-center text-center"
     >
-      <p className="text-emerald-400 font-mono mb-4">04. Qual è il prossimo passo?</p>
+      <p className="text-emerald-400 font-mono mb-4">03. Qual è il prossimo passo?</p>
       
       <h2 className="text-4xl md:text-5xl font-bold text-zinc-50 mb-6 tracking-tight">
         Mettiamoci in contatto
