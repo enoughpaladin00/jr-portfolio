@@ -1,0 +1,15 @@
+{
+    "redirects": [
+        {
+            "source": "/(.*)",
+            "has": [
+                {
+                    "type": "host",
+                    "value": "jr-portfolio-ivory.vercel.app"
+                }
+            ],
+            "destination": "https://www.jacoporossi.com/$1",
+            "permanent": true
+        }
+    ]
+}
