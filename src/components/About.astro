@@ -1,0 +1,58 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { content, type Lang } from '../i18n/content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { log, stack, afk } = content[lang];
+const chip = 'chip rounded-[3px] border border-line px-2.5 py-1 font-mono text-[13px] text-fg';
+---
+
+<section id="log" class="flex flex-wrap gap-14 border-t border-line py-18" aria-labelledby="log-title">
+  <div class="min-w-0 flex-[999_1_520px]">
+    <SectionHeading command="tail experience.log" title={log.title} id="log-title" />
+    <ol data-animate class="timeline">
+      {
+        log.entries.map((e, i) => (
+          <li data-reveal class="relative pb-8 pl-7" style={`--i: ${i}`}>
+            <span
+              class="timeline-dot absolute top-2.5 -left-1 size-[9px] rounded-full border border-accent bg-ink"
+              style={`--i: ${i}`}
+              aria-hidden="true"
+            />
+            <p class="font-mono text-[13px] text-accent">{e.when}</p>
+            <h3 class="mt-1 text-[21px] leading-snug font-bold tracking-[-0.015em]">{e.what}</h3>
+            <p class="mt-0.5 text-[15px] text-muted">{e.where}</p>
+            <p class="mt-2 text-body">{e.note}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+
+  <div class="min-w-0 flex-[1_1_340px]">
+    <SectionHeading command="cat stack.txt" title={stack.title} />
+    <div class="flex flex-col gap-6">
+      {
+        stack.groups.map((g, gi) => (
+          <div data-reveal style={`--i: ${gi}`}>
+            <h3 class="mb-3 font-mono text-sm text-muted">## {g.label}</h3>
+            <ul class="flex flex-wrap gap-2">
+              {g.items.map((item) => (
+                <li class={chip}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <div data-reveal class="mt-10 rounded-md border border-dashed border-line-strong p-6">
+      <h3 class="mb-2.5 font-mono text-sm text-accent">// {afk.title}</h3>
+      <p class="text-base text-body">{afk.text}</p>
+    </div>
+  </div>
+</section>

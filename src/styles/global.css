@@ -1,20 +1,374 @@
 @import "tailwindcss";
+@import "@fontsource-variable/bricolage-grotesque/opsz.css";
+@import "@fontsource/fragment-mono/400.css";
 
 @theme {
-  --font-sans: "Inter", sans-serif;
-  --font-mono: "Fira Code", monospace;
+  --color-ink: #0c0f0d;
+  --color-panel: #111613;
+  --color-line: #26302a;
+  --color-line-strong: #3a463e;
+  --color-muted: #93a098;
+  --color-body: #c9d1cb;
+  --color-fg: #e4e9e5;
+  --color-accent: #f2b84b;
+  --color-ok: #7ee787;
+
+  --font-sans: "Bricolage Grotesque Variable", "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Fragment Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 5rem;
+    font-optical-sizing: auto;
+  }
+
+  a {
+    text-underline-offset: 3px;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+}
+
+/* ---------- Language switch: cross-document fade (no JS) ---------- */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 260ms;
+  animation-timing-function: var(--ease-out);
+}
+
+/* ---------- Header: border fades in once the page scrolls ---------- */
+.site-header {
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+html[data-scrolled] .site-header {
+  border-color: var(--color-line);
+  background-color: color-mix(in srgb, var(--color-ink) 85%, transparent);
+}
+
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 200ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .nav-link:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------- Scroll progress bar (scroll-driven, no JS) ---------- */
+.scroll-progress {
+  display: none;
+}
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    display: block;
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: var(--color-accent);
+    transform-origin: 0 50%;
+    z-index: 60;
+    animation: progress-grow linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes progress-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------- Hero: typed command, then lines rise in ---------- */
+.typed {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+  width: 6ch;
+  animation: typing 520ms steps(6, end) 200ms both;
+}
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 6ch;
+  }
+}
+
+.rise {
+  animation: rise 900ms var(--ease-out) both;
+  animation-delay: calc(700ms + var(--i, 0) * 90ms);
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.5em;
+  height: 0.9em;
+  margin-left: 0.1em;
+  vertical-align: -0.05em;
+  background: currentColor;
+  animation: blink 1.1s steps(1) infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ---------- Scroll reveal (hidden state only when JS can reveal it) ---------- */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 800ms var(--ease-out),
+      transform 800ms var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 80ms);
+  }
+  [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Timeline: the line draws itself, dots pop in ---------- */
+.timeline {
+  position: relative;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  background: var(--color-line);
+  transform-origin: top;
+  transform: scaleY(0);
+  transition: transform 1400ms var(--ease-out);
+}
+.timeline.is-in::before {
+  transform: scaleY(1);
+}
+.timeline-dot {
+  transform: scale(0);
+  transition: transform 400ms var(--ease-out);
+  transition-delay: calc(300ms + var(--i, 0) * 180ms);
+}
+.timeline.is-in .timeline-dot {
+  transform: scale(1);
+}
+
+/* ---------- NetInfect pipeline: a packet travels, the attacker is dropped ---------- */
+.pipe-step {
+  transition: border-color 200ms ease;
+}
+.pipe-link {
+  position: relative;
+  width: 1px;
+  height: 28px;
+  align-self: center;
+  background: var(--color-line-strong);
+}
+.pipe-link::after {
+  content: "";
+  position: absolute;
+  left: -3px;
+  top: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  opacity: 0;
+}
+.pipe.is-in .pipe-step {
+  animation: pipe-pulse 5s var(--ease-in-out) infinite;
+  animation-delay: calc(var(--i) * 650ms);
+}
+.pipe.is-in .pipe-link::after {
+  animation: pipe-packet 5s var(--ease-in-out) infinite;
+  animation-delay: calc(var(--i) * 650ms - 450ms);
+}
+.pipe.is-in .pipe-step.is-drop {
+  animation-name: pipe-drop;
+}
+@keyframes pipe-pulse {
+  0%,
+  16%,
+  100% {
+    border-color: var(--color-line-strong);
+    background-color: transparent;
+  }
+  5% {
+    border-color: var(--color-accent);
+    background-color: color-mix(in srgb, var(--color-accent) 9%, transparent);
+  }
+}
+@keyframes pipe-drop {
+  0%,
+  22%,
+  100% {
+    background-color: transparent;
+    transform: none;
+  }
+  5% {
+    background-color: color-mix(in srgb, var(--color-accent) 18%, transparent);
+    transform: scale(1.02);
+  }
+}
+@keyframes pipe-packet {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  1% {
+    opacity: 1;
+  }
+  8% {
+    opacity: 1;
+    transform: translateY(21px);
+  }
+  10%,
+  100% {
+    opacity: 0;
+    transform: translateY(21px);
+  }
+}
+
+/* ---------- Cards, buttons, links: small, quick feedback ---------- */
+.card {
+  transition:
+    transform 220ms var(--ease-out),
+    border-color 220ms ease,
+    background-color 220ms ease;
+}
+.arrow {
+  display: inline-block;
+  transition: transform 220ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-line-strong);
+    background-color: var(--color-panel);
+  }
+  .card:hover .arrow,
+  .link-arrow:hover .arrow {
+    transform: translate(3px, -3px);
+  }
+  .btn-arrow:hover .arrow {
+    transform: translateX(4px);
+  }
+}
+.press {
+  transition:
+    transform 120ms var(--ease-out),
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+.press:active {
+  transform: scale(0.97);
+}
+
+.chip {
+  transition:
+    border-color 150ms ease,
+    color 150ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .chip:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+}
+
+/* ---------- Reduced motion: everything still, everything visible ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+  .site-header,
+  .nav-link::after,
+  .card,
+  .arrow,
+  .press,
+  .chip,
+  .pipe-step,
+  .timeline-dot {
+    transition: none;
+  }
+  .scroll-progress {
+    display: none;
+  }
+  .typed {
+    animation: none;
+    width: auto;
+  }
+  .rise,
+  .cursor,
+  .pipe.is-in .pipe-step,
+  .pipe.is-in .pipe-link::after {
+    animation: none;
+  }
+  .timeline::before {
+    transition: none;
+    transform: none;
+  }
+  .timeline-dot {
+    transform: none;
+  }
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
-    background: #09090b; /* zinc-950 */
+  background: var(--color-ink);
 }
 ::-webkit-scrollbar-thumb {
-    background: #27272a; /* zinc-800 */
-    border-radius: 4px;
+  background: var(--color-line);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #3f3f46; /* zinc-700 */
+  background: var(--color-line-strong);
 }

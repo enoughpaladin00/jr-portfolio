@@ -1,14 +1,23 @@
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
-import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.jacoporossi.com',
-  integrations: [sitemap(), react()],
-
+  i18n: {
+    locales: ['it', 'en'],
+    defaultLocale: 'it',
+    routing: { prefixDefaultLocale: false },
+  },
+  integrations: [
+    sitemap({
+      i18n: { defaultLocale: 'it', locales: { it: 'it-IT', en: 'en-US' } },
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
+    // Never inline assets as data: URIs; the CSP only allows fonts from 'self'.
+    build: { assetsInlineLimit: 0 },
   },
 });

@@ -1,0 +1,54 @@
+---
+import { content, homePath, type Lang } from '../i18n/content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = content[lang].nav;
+const navLinks = [
+  { href: '#projects', label: t.projects },
+  { href: '#log', label: t.log },
+  { href: '#contact', label: t.contact },
+];
+const langs: Lang[] = ['it', 'en'];
+---
+
+<header class="site-header sticky top-0 z-40 border-b border-transparent backdrop-blur-md">
+  <div class="mx-auto flex max-w-[1180px] flex-wrap items-center justify-between gap-x-4 gap-y-1 px-5 py-2.5 sm:px-8">
+    <a href={homePath[lang]} class="inline-flex min-h-11 items-center font-mono text-[15px] text-fg no-underline hover:text-fg">
+      jr<span class="text-accent">@</span>sapienza<span class="text-muted">:~$</span>
+    </a>
+
+    <nav aria-label={t.label} class="flex flex-wrap items-center gap-x-6 gap-y-1 font-mono text-sm">
+      {
+        navLinks.map((l) => (
+          <a href={l.href} class="nav-link inline-flex min-h-11 items-center text-muted no-underline transition-colors hover:text-accent">
+            ./{l.label}
+          </a>
+        ))
+      }
+      <ul aria-label={t.langLabel} class="flex overflow-hidden rounded border border-line">
+        {
+          langs.map((l) => (
+            <li>
+              <a
+                href={homePath[l]}
+                hreflang={l}
+                lang={l}
+                aria-current={l === lang ? 'page' : undefined}
+                class:list={[
+                  'press inline-flex min-h-8 min-w-11 items-center justify-center px-3 text-[13px] no-underline',
+                  l === lang ? 'bg-accent text-ink hover:text-ink' : 'text-muted hover:text-accent',
+                ]}
+              >
+                {l.toUpperCase()}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
