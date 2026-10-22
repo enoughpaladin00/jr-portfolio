@@ -66,8 +66,6 @@ const csp = [
       {lang === 'it' ? 'Vai al contenuto' : 'Skip to content'}
     </a>
     <slot />
-    <script>
-      import '../scripts/motion';
-    </script>
+    <script is:inline type="module" src="/scripts/motion.js"></script>
   </body>
 </html>

@@ -1,9 +1,10 @@
 // Scroll-driven motion for the portfolio. No dependencies.
+// Served as a static file so the strict CSP (script-src 'self') allows it.
 // - [data-reveal] and [data-animate] elements get `.is-in` the first time they enter the viewport.
 // - <html data-scrolled> is set once the page leaves the top, so the header can show its border.
 
 const root = document.documentElement;
-const targets = document.querySelectorAll<HTMLElement>('[data-reveal], [data-animate]');
+const targets = document.querySelectorAll('[data-reveal], [data-animate]');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 if (reduceMotion || !('IntersectionObserver' in window)) {
