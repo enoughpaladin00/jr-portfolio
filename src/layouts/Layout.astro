@@ -13,8 +13,8 @@ const canonical = new URL(homePath[lang], site);
 const csp = [
   "default-src 'self'",
   "script-src 'self'",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "font-src 'self' https://fonts.gstatic.com",
+  "style-src 'self' 'unsafe-inline'",
+  "font-src 'self'",
   "img-src 'self' data:",
   "connect-src 'self' ws: wss:",
   "frame-src 'none'",
@@ -49,12 +49,6 @@ const csp = [
     <meta property="og:locale" content={lang === 'it' ? 'it_IT' : 'en_US'} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Fragment+Mono&display=swap"
-    />
   </head>
 
   <body class="min-h-screen bg-ink font-sans text-fg antialiased selection:bg-accent selection:text-ink">

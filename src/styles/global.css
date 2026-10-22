@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "@fontsource-variable/bricolage-grotesque/opsz.css";
+@import "@fontsource/fragment-mono/400.css";
 
 @theme {
   --color-ink: #0c0f0d;
@@ -11,7 +13,7 @@
   --color-accent: #f2b84b;
   --color-ok: #7ee787;
 
-  --font-sans: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Bricolage Grotesque Variable", "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Fragment Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
