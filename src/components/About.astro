@@ -1,6 +1,6 @@
 ---
 import SectionHeading from './SectionHeading.astro';
-import { content, links, type Lang } from '../i18n/content';
+import { content, type Lang } from '../i18n/content';
 
 interface Props {
   lang: Lang;
@@ -44,17 +44,6 @@ const { log, stack, afk } = content[lang];
     <div class="mt-10 rounded-md border border-dashed border-line-strong p-6">
       <h3 class="mb-2.5 font-mono text-sm font-medium text-accent">// {afk.title}</h3>
       <p class="text-base text-body">{afk.text}</p>
-      <div class="mt-5 aspect-video overflow-hidden rounded border border-line">
-        <iframe
-          src={links.shortFilm}
-          title={afk.filmTitle}
-          class="size-full"
-          loading="lazy"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allow="encrypted-media; picture-in-picture; fullscreen"
-          allowfullscreen
-        ></iframe>
-      </div>
     </div>
   </div>
 </section>

@@ -11,7 +11,6 @@ export const links = {
   linkedin: 'https://www.linkedin.com/in/jacopo-rossi-software-engineer/',
   htb: 'https://profile.hackthebox.com/profile/019cfd80-7483-71e0-b0ad-f776c5b6b2fd',
   netinfect: 'https://github.com/enoughpaladin00/NetInfect',
-  shortFilm: 'https://www.youtube-nocookie.com/embed/PwGMcgh1_QA',
   cv: '/cv/Jacopo-Rossi-CV.pdf',
 };
 
@@ -53,7 +52,7 @@ export interface Content {
   };
   log: { title: string; entries: LogEntry[] };
   stack: { title: string; groups: { label: string; items: string[] }[] };
-  afk: { title: string; text: string; filmTitle: string };
+  afk: { title: string; text: string };
   contact: { title: string; text: string };
   footer: string;
 }
@@ -188,7 +187,6 @@ export const content: Record<Lang, Content> = {
     afk: {
       title: 'lontano dalla tastiera',
       text: 'Anni di calcio dilettantistico, spesso da capitano, mi hanno insegnato a guidare un gruppo sotto pressione. Nel 2025 ho curato la direzione tecnica di un cortometraggio indipendente.',
-      filmTitle: 'Il cortometraggio di cui ho curato la direzione tecnica',
     },
     contact: {
       title: 'Parliamone.',
@@ -312,7 +310,6 @@ export const content: Record<Lang, Content> = {
     afk: {
       title: 'away from keyboard',
       text: 'Years of amateur football, often as captain, taught me to lead a team under pressure. In 2025 I was technical director of an independent short film.',
-      filmTitle: 'The short film I was technical director of',
     },
     contact: {
       title: "Let's talk.",
