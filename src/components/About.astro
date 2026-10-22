@@ -1,0 +1,60 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { content, links, type Lang } from '../i18n/content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { log, stack, afk } = content[lang];
+---
+
+<section id="log" class="flex flex-wrap gap-14 border-t border-line py-18" aria-labelledby="log-title">
+  <div class="min-w-0 flex-[999_1_520px]">
+    <SectionHeading command="tail experience.log" title={log.title} id="log-title" />
+    <ol class="border-l border-line">
+      {
+        log.entries.map((e) => (
+          <li class="relative pb-8 pl-7">
+            <span class="absolute top-2.5 -left-[5px] size-[9px] rounded-full border border-accent bg-ink" aria-hidden="true" />
+            <p class="font-mono text-[13px] text-accent">{e.when}</p>
+            <h3 class="mt-1 text-[19px] font-semibold">{e.what}</h3>
+            <p class="mt-0.5 text-[15px] text-muted">{e.where}</p>
+            <p class="mt-2 text-body">{e.note}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+
+  <div class="min-w-0 flex-[1_1_340px]">
+    <SectionHeading command="cat stack.txt" title={stack.title} />
+    <div class="flex flex-col gap-6">
+      {
+        stack.groups.map((g) => (
+          <div>
+            <h3 class="mb-2.5 font-mono text-sm font-medium text-muted">## {g.label}</h3>
+            <p class="font-mono text-sm leading-[1.9] text-fg">{g.items.join(' · ')}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="mt-10 rounded-md border border-dashed border-line-strong p-6">
+      <h3 class="mb-2.5 font-mono text-sm font-medium text-accent">// {afk.title}</h3>
+      <p class="text-base text-body">{afk.text}</p>
+      <div class="mt-5 aspect-video overflow-hidden rounded border border-line">
+        <iframe
+          src={links.shortFilm}
+          title={afk.filmTitle}
+          class="size-full"
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allow="encrypted-media; picture-in-picture; fullscreen"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>

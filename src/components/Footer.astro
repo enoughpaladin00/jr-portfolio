@@ -1,36 +1,19 @@
 ---
-const currentYear = new Date().getFullYear();
+import { content, type Lang } from '../i18n/content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const year = new Date().getFullYear();
 ---
 
-<footer class="border-t border-zinc-800/50 mt-auto">
-  <div class="max-w-5xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-    
-    <p class="text-sm text-zinc-500 font-mono">
-      &copy; {currentYear} Jacopo Rossi. All rights reserved.
-    </p>
-
-    <div class="flex items-center gap-6 text-sm text-zinc-500 font-mono">
-      <a 
-        href="https://github.com/enoughpaladin00" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        class="hover:text-emerald-400 transition-colors"
-      >
-        GitHub
-      </a>
-      <a 
-        href="https://www.linkedin.com/in/jacopo-rossi-4734b3350" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        class="hover:text-emerald-400 transition-colors"
-      >
-        LinkedIn
-      </a>
-      <span class="text-zinc-700">|</span>
-      <p>
-        Built with <a href="https://astro.build" target="_blank" class="text-zinc-300 hover:text-emerald-400 transition-colors">Astro</a>
-      </p>
-    </div>
-
+<footer class="border-t border-line">
+  <div class="mx-auto flex max-w-[1180px] flex-wrap justify-between gap-3 px-5 py-6 font-mono text-[13px] text-muted sm:px-8">
+    <span>© {year} Jacopo Rossi</span>
+    <span>
+      {content[lang].footer.replace('Astro', '')}<a href="https://astro.build" class="text-muted hover:text-accent">Astro</a>
+    </span>
   </div>
 </footer>

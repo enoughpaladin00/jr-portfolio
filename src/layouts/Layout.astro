@@ -1,45 +1,69 @@
 ---
 import '../styles/global.css';
-import Navbar from '../components/animations/Navbar';
-import Footer from '../components/Footer.astro';
+import { content, homePath, type Lang } from '../i18n/content';
 
 interface Props {
-	title: string;
-	description?: string;
+  lang: Lang;
 }
 
-const { title, description = "Il mio portfolio digitale" } = Astro.props;
+const { lang } = Astro.props;
+const t = content[lang];
+const site = Astro.site ?? new URL('https://www.jacoporossi.com');
+const canonical = new URL(homePath[lang], site);
+const csp = [
+  "default-src 'self'",
+  "script-src 'self'",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' https://fonts.gstatic.com",
+  "img-src 'self' data:",
+  "connect-src 'self' ws: wss:",
+  'frame-src https://www.youtube-nocookie.com',
+  "base-uri 'self'",
+  "form-action 'self'",
+].join('; ');
 ---
 
 <!doctype html>
-<html lang="it" class="scroll-smooth">
-	<head>
-    	<meta charset="UTF-8" />
-    	<meta name="viewport" content="width=device-width" />
-    	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    	<meta name="generator" content={Astro.generator} />
-		<link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+<html lang={lang} class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content={csp} />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>{t.meta.title}</title>
+    <meta name="description" content={t.meta.description} />
+    <meta name="author" content="Jacopo Rossi" />
+    <meta name="google-site-verification" content="CtTq0UPHuVXP1Qy6H9YbyzOuXwupBoo7sJVT6NOResM" />
+    <meta name="theme-color" content="#0C0F0D" />
+    <meta name="generator" content={Astro.generator} />
 
-    	<title>Jacopo Rossi | Software Engineer & AI Specialist</title>
-    	<meta name="description" content="Portfolio di Jacopo Rossi, Ingegnere Informatico specializzato in Artificial Intelligence e Cybersecurity. Scopri i miei progetti e le mie competenze." />
-    	<meta name="keywords" content="Jacopo Rossi, Ingegnere Informatico, Roma, Sapienza, Artificial Intelligence, Cybersecurity, Software Engineer, Sviluppatore" />
-    	<meta name="author" content="Jacopo Rossi" />
-		<meta name="google-site-verification" content="CtTq0UPHuVXP1Qy6H9YbyzOuXwupBoo7sJVT6NOResM" />  
-		
-		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' ws: wss: https://api.github.com; frame-src 'self' https://www.youtube.com;" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="it" href={new URL(homePath.it, site)} />
+    <link rel="alternate" hreflang="en" href={new URL(homePath.en, site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(homePath.it, site)} />
 
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={t.meta.title} />
+    <meta property="og:description" content={t.meta.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'it' ? 'it_IT' : 'en_US'} />
 
-    </head>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    />
+  </head>
 
-	<body class="bg-zinc-950 text-zinc-50 font-sans antialiased selection:bg-emerald-500 selection:text-zinc-950 min-h-screen flex flex-col">
-		
-		<Navbar client:load />
-
-		<main class="flex-grow w-full max-w-5xl mx-auto px-6 pt-24 pb-12 md:py-32">
-			<slot /> 
-		</main>
-
-		<Footer />
-
-	</body>
+  <body class="min-h-screen bg-ink font-sans text-fg antialiased selection:bg-accent selection:text-ink">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded focus:bg-accent focus:px-4 focus:py-2 focus:font-mono focus:text-ink"
+    >
+      {lang === 'it' ? 'Vai al contenuto' : 'Skip to content'}
+    </a>
+    <slot />
+  </body>
 </html>

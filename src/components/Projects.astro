@@ -1,0 +1,87 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { content, links, type Lang } from '../i18n/content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = content[lang].projects;
+const chip = 'rounded-[3px] border border-line px-2.5 py-1 font-mono text-[13px] text-muted';
+---
+
+<section id="projects" class="border-t border-line py-18" aria-labelledby="projects-title">
+  <SectionHeading command="ls ~/projects" title={t.title} id="projects-title" />
+
+  <article class="flex flex-wrap gap-10 rounded-md border border-line-strong bg-panel p-6 sm:p-9">
+    <div class="min-w-0 flex-[999_1_460px]">
+      <p class="font-mono text-[13px] tracking-[0.08em] text-accent uppercase">{t.featured}</p>
+      <h3 class="mt-2.5 font-mono text-[28px]">NetInfect</h3>
+      <p class="mt-3 text-body">{t.niDesc}</p>
+      <ul class="mt-5 flex flex-col gap-2.5">
+        {
+          t.niBullets.map((b) => (
+            <li class="flex gap-3">
+              <span class="font-mono text-accent" aria-hidden="true">&gt;</span>
+              <span>{b}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <ul class="mt-6 flex flex-wrap gap-2" aria-label="Stack">
+        {['Python', 'scikit-learn', 'Zeek', 'Kathará', 'iptables'].map((tag) => <li class={chip}>{tag}</li>)}
+      </ul>
+      <a href={links.netinfect} class="mt-5 inline-flex min-h-11 items-center font-mono text-[15px] break-all text-accent hover:text-fg">
+        github.com/enoughpaladin00/NetInfect ↗
+      </a>
+    </div>
+
+    <figure class="m-0 flex min-w-0 flex-[1_1_280px] flex-col font-mono text-sm">
+      <figcaption class="mb-3.5 text-[13px] text-muted">{t.pipeCaption}</figcaption>
+      <ol>
+        {
+          t.pipeline.map((step, i) => (
+            <li class="flex flex-col">
+              {i > 0 && (
+                <span class="self-center py-1 leading-none text-line-strong" aria-hidden="true">
+                  │<br />▼
+                </span>
+              )}
+              <span
+                class:list={[
+                  'flex flex-col gap-0.5 rounded border px-3.5 py-3',
+                  i === t.pipeline.length - 1 ? 'border-accent text-accent' : 'border-line-strong text-fg',
+                ]}
+              >
+                <span>{step.label}</span>
+                <span class="text-xs text-muted">{step.note}</span>
+              </span>
+            </li>
+          ))
+        }
+      </ol>
+    </figure>
+  </article>
+
+  <div class="mt-5 grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-5">
+    {
+      t.list.map((p) => (
+        <article class="flex flex-col gap-3 rounded-md border border-line p-7">
+          <p class="font-mono text-[13px] text-muted">{p.meta}</p>
+          <h3 class="font-mono text-[21px]">{p.name}</h3>
+          <p class="grow text-body">{p.desc}</p>
+          <ul class="flex flex-wrap gap-2" aria-label="Stack">
+            {p.tags.map((tag) => (
+              <li class={chip}>{tag}</li>
+            ))}
+          </ul>
+          <a href={p.url} class="inline-flex min-h-11 items-center font-mono text-sm text-accent hover:text-fg">
+            {t.viewCode}
+            <span class="sr-only">: {p.name}</span> ↗
+          </a>
+        </article>
+      ))
+    }
+  </div>
+</section>
