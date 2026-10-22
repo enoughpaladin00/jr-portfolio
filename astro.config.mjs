@@ -17,5 +17,7 @@ export default defineConfig({
   ],
   vite: {
     plugins: [tailwindcss()],
+    // Never inline assets as data: URIs; the CSP only allows fonts from 'self'.
+    build: { assetsInlineLimit: 0 },
   },
 });
